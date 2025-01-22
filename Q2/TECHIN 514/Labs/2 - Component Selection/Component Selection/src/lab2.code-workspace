@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../../../../../.."
+		},
+		{
+			"name": "Component Selection",
+			"path": ".."
+		},
+		{
+			"name": "Component Selection 2",
+			"path": "../../Component Selection 2"
+		}
+	],
+	"settings": {}
+}
