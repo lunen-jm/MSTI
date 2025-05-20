@@ -1,0 +1,2 @@
+pyserial>=3.5
+# Do not install the 'serial' package as it conflicts with pyserial 
