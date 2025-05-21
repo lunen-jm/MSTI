@@ -41,12 +41,19 @@ void capture_data() {
     sensors_event_t a, g, temp;
     mpu.getEvent(&a, &g, &temp);
   
-    /* Print out the values */
+    /* Print out the values - now includes gyroscope data */
+    // Format: ax,ay,az,gx,gy,gz
     Serial.print(a.acceleration.x);
     Serial.print(",");
     Serial.print(a.acceleration.y);
     Serial.print(",");
     Serial.print(a.acceleration.z);
+    Serial.print(",");
+    Serial.print(g.gyro.x);
+    Serial.print(",");
+    Serial.print(g.gyro.y);
+    Serial.print(",");
+    Serial.print(g.gyro.z);
     Serial.print("\n");
     
     // Check if we've been capturing for 1 second
@@ -58,11 +65,10 @@ void capture_data() {
   }
 }
 
-void loop() {
-  if (Serial.available() > 0) {
+void loop() {  if (Serial.available() > 0) {
     a = Serial.read();
     if (a == 'o') {
-      Serial.print("-,-,-\n");
+      Serial.print("-,-,-,-,-,-\n");
       capture = true;
       capture_start_time = millis(); // Record the start time
       Serial.println("Starting capture (will run for 1 second)");

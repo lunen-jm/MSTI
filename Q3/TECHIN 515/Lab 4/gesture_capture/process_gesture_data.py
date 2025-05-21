@@ -95,7 +95,7 @@ def ensure_directory(directory):
 
 def save_data_to_csv(filepath, data):
     """
-    Save accelerometer data to CSV file with timestamps.
+    Save accelerometer and gyroscope data to CSV file with timestamps.
     """
     # Calculate timestamps (100Hz = 10ms intervals)
     timestamps = []
@@ -105,9 +105,10 @@ def save_data_to_csv(filepath, data):
     
     with open(filepath, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(['timestamp', 'x', 'y', 'z'])  # Header with timestamp
-        for i, (x, y, z) in enumerate(data):
-            writer.writerow([timestamps[i], x, y, z])
+        # Updated header to include gyroscope data
+        writer.writerow(['timestamp', 'ax', 'ay', 'az', 'gx', 'gy', 'gz'])
+        for i, (ax, ay, az, gx, gy, gz) in enumerate(data):
+            writer.writerow([timestamps[i], ax, ay, az, gx, gy, gz])
     
     print(f"Saved {len(data)} samples to {filepath}")
     return len(data)
@@ -168,9 +169,8 @@ def main():
             if ser.in_waiting:
                 try:
                     line = ser.readline().decode('utf-8').strip()
-                    
-                    # Check for start marker
-                    if "-,-,-" in line:
+                      # Check for start marker
+                    if "-,-,-,-,-,-" in line:
                         collecting = True
                         current_data = []
                         print("Capture started...")
@@ -196,10 +196,15 @@ def main():
                     # Process data if we're collecting
                     if collecting:
                         try:
-                            # Parse x,y,z values
+                            # Parse x,y,z,gx,gy,gz values
                             if "," in line:
-                                x, y, z = map(float, line.split(','))
-                                current_data.append([x, y, z])
+                                values = line.split(',')
+                                # Check if we have all 6 values (3 accel + 3 gyro)
+                                if len(values) == 6:
+                                    ax, ay, az, gx, gy, gz = map(float, values)
+                                    current_data.append([ax, ay, az, gx, gy, gz])
+                                else:
+                                    print(f"Warning: Incomplete data received: {line}")
                         except ValueError:
                             # Skip lines that don't contain valid data
                             pass

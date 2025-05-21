@@ -1,0 +1,5 @@
+# Name,   Type, SubType, Offset,  Size, Flags  515\Lab 4\lab4_platformIO\\.pio\huge_app.csv
+nvs,      data, nvs,     0x9000,  0x5000,  515\Lab 4\lab4_platformIO\\.pio\huge_app.csv
+otadata,  data, ota,     0xe000,  0x2000,  515\Lab 4\lab4_platformIO\\.pio\huge_app.csv
+app0,     app,  ota_0,   0x10000, 0x300000,  515\Lab 4\lab4_platformIO\\.pio\huge_app.csv
+spiffs,   data, spiffs,  0x310000,0xF0000,  515\Lab 4\lab4_platformIO\\.pio\huge_app.csv
